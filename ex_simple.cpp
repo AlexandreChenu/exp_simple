@@ -54,7 +54,6 @@
 #include <sferes/fit/fit_qd.hpp>
 #include <sferes/qd/container/archive.hpp>
 #include <sferes/qd/container/kdtree_storage.hpp>
-#include <sferes/qd/container/sort_based_storage.hpp>
 #include <sferes/qd/container/grid.hpp>
 #include <sferes/qd/quality_diversity.hpp>
 #include <sferes/qd/selector/tournament.hpp>

@@ -154,11 +154,11 @@ std::cout << "init typedef done" << std::endl;
     //typedef qd::MapElites<phen_t, eval_t, stat_t, modifier_t, Params> qd_t;
 
     qd_t qd;
-    //run_ea(argc, argv, qd); 
+    run_ea(argc, argv, qd); 
 
 std::cout << "init qd exp" << std::endl;
 
-    qd.run();
+    //qd.run();
     std::cout<<"best fitness:" << qd.stat<0>().best()->fit().value() << std::endl;
     std::cout<<"archive size:" << qd.stat<1>().archive().size() << std::endl;
 

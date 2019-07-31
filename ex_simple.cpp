@@ -158,9 +158,10 @@ int main(int argc, char **argv)
     //typedef qd::MapElites<phen_t, eval_t, stat_t, modifier_t, Params> qd_t;
 
     qd_t qd;
-    //run_ea(argc, argv, qd); 
+    run_ea(argc, argv, qd); 
 
-    qd.run();
+std::cout << "init qd exp" << std::endl;
+
     std::cout<<"best fitness:" << qd.stat<0>().best()->fit().value() << std::endl;
     std::cout<<"archive size:" << qd.stat<1>().archive().size() << std::endl;
 

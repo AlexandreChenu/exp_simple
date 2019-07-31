@@ -1,6 +1,7 @@
 //| This file is a part of the sferes2 framework.
 //| Copyright 2016, ISIR / Universite Pierre et Marie Curie (UPMC)
 //| Main contributor(s): Jean-Baptiste Mouret, mouret@isir.fr
+
 //|
 //| This software is a computer program whose purpose is to facilitate
 //| experiments in evolutionary computation and evolutionary robotics.
@@ -45,6 +46,8 @@
 
 //#include "/git/sferes2/exp/exp_simple/best_fit_nn.hpp"
 #include "/git/sferes2/exp/exp_simple/best_fit_it.hpp"
+//#include "/home/vagrant/git/exp_simple/best_fit_it.hpp"
+
 
 #include <sferes/stat/qd_container.hpp>
 #include <sferes/stat/qd_selection.hpp>
@@ -54,6 +57,7 @@
 #include <sferes/fit/fit_qd.hpp>
 #include <sferes/qd/container/archive.hpp>
 //#include <sferes/qd/container/kdtree_storage.hpp>
+#include <sferes/qd/container/sort_based_storage.hpp>
 #include <sferes/qd/container/grid.hpp>
 #include <sferes/qd/quality_diversity.hpp>
 #include <sferes/qd/selector/tournament.hpp>
@@ -99,7 +103,8 @@ Eigen::Vector3d forward_model(Eigen::VectorXd a){
       submat<<cos(a(i)), -sin(a(i)), 0, _l_arm(i), sin(a(i)), cos(a(i)), 0 , 0, 0, 0, 1, 0, 0, 0, 0, 1;
       mat=mat*submat;
     }
-    
+   
+ 
     Eigen::Matrix4d submat;
     submat<<1, 0, 0, _l_arm(a.size()), 0, 1, 0 , 0, 0, 0, 1, 0, 0, 0, 0, 1;
     mat=mat*submat;
@@ -118,7 +123,7 @@ int main(int argc, char **argv)
     std::cout << "start...simple example" <<std::endl;
 
     typedef nn_mlp<Params> fit_t; 
-    
+
     typedef phen::Parameters<gen::EvoFloat<1, Params>, fit::FitDummy<>, Params> weight_t;
     //typedef phen::Parameters<gen::EvoFloat<1, Params>, fit::FitDummy<>, Params> bias_t;
     typedef PfWSum<weight_t> pf_t;
@@ -149,14 +154,11 @@ int main(int argc, char **argv)
 
     typedef modif::Dummy<> modifier_t; //place holder
     
-std::cout << "init typedef done" << std::endl;
     typedef qd::QualityDiversity<phen_t, eval_t, stat_t, modifier_t, select_t, container_t, Params> qd_t; 
     //typedef qd::MapElites<phen_t, eval_t, stat_t, modifier_t, Params> qd_t;
 
     qd_t qd;
     //run_ea(argc, argv, qd); 
-
-std::cout << "init qd exp" << std::endl;
 
     qd.run();
     std::cout<<"best fitness:" << qd.stat<0>().best()->fit().value() << std::endl;
@@ -164,5 +166,5 @@ std::cout << "init qd exp" << std::endl;
 
 
     std::cout << "simple example...done" << std::endl;
-    return 0;
-  }
+    return 0;  
+}

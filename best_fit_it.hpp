@@ -19,21 +19,13 @@ namespace sferes {
     public:
       template<typename E>
       void refresh(const E& ea) {
-        std::cout << "START REFRESH" << std::endl;
-
-	assert(!ea.pop().empty());
+        assert(!ea.pop().empty());
         _best = *std::max_element(ea.pop().begin(), ea.pop().end(), fit::compare_max());
-	
-	std::cout << "BREAKPOINT1" << std::endl;
+
 
         this->_create_log_file(ea, "bestfit.dat");
-	
-	std::cout << "BREAKPOINT2" << std::endl;
-
         if (ea.dump_enabled())
           (*this->_log_file) << ea.gen() << " " << ea.nb_evals() << " " << _best->fit().value() << std::endl;
-
-	std::cout << "BREAKPOINT3" << std::endl;
 
         //change it to depend from params 
         if (_cnt%Params::pop::dump_period == 0){ //for each dump period
@@ -43,33 +35,36 @@ namespace sferes {
 
           // std::cout << "copied" << std::endl;
 
-	std::cout << "BREAKPOINT4" << std::endl;
-
           //access the n bests
           for (int i=0; i<_nbest; i++){
             _bests[i] = *std::max_element(pop2.begin(), pop2.end(), fit::compare_max());
             pop2.erase(std::max_element(pop2.begin(), pop2.end(), fit::compare_max())); //TODO: Check if such method is not too expensive otherwise, use template
           }
 
-	std::cout << "BREAKPOINT5" << std::endl;
           // std::cout << "best found" << std::endl;
           pop2.clear();
 
           typedef boost::archive::binary_oarchive oa_t;
 
           std::cout << "writing...model" << std::endl;
-          const std::string fmodel = std::string("/git/sferes2/exp/tmp/model_") + std::to_string(_cnt) + ".bin";
-          {
-          std::ofstream ofs(fmodel, std::ios::binary);
-          oa_t oa(ofs);
+          //const std::string fmodel = "/git/sferes2/exp/tmp/model_" + std::to_string(_cnt) + ".bin";
+          const std::string fmodel = ea.res_dir() + "/model_" + std::to_string(_cnt) + ".bin";
+	  {
+	  std::ofstream ofs(fmodel, std::ios::binary);
+          
+	  if (ofs.fail()){
+		std::cout << "wolla ca s'ouvre pas" << std::endl;}  
+	
+	  oa_t oa(ofs);
           //oa << model;
           oa << *_best;
           }
 
           for (int i =0; i<_nbest; i++){
             std::cout << "writing...model..." << std::to_string(i) << std::endl;
-            const std::string fmodel = std::string("/git/sferes2/exp/tmp/model_") + std::to_string(_cnt) + std::string("_") + std::to_string(i) + ".bin";
-            {
+            //const std::string fmodel = std::string("/git/tmp/model_") + std::to_string(_cnt) + std::string("_") + std::to_string(i) + ".bin";
+      	    const std::string fmodel = ea.res_dir() + "/model_" + std::to_string(_cnt) + std::string("_") + std::to_string(i) + ".bin";
+	    {
             std::ofstream ofs(fmodel, std::ios::binary);
             oa_t oa(ofs);
             //oa << model;

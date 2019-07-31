@@ -48,6 +48,7 @@
 
 #include <sferes/fit/fit_qd.hpp>
 #include <sferes/qd/container/archive.hpp>
+//#include <sferes/qd/container/kdtree_storage.hpp>
 #include <sferes/qd/container/sort_based_storage.hpp>
 #include <sferes/qd/container/grid.hpp>
 #include <sferes/qd/quality_diversity.hpp>
@@ -148,7 +149,7 @@ FIT_QD(nn_mlp){
       //void eval(Indiv & ind, IO & input, IO & target){ //ind : altered phenotype
       void eval(Indiv & ind){ //ind : altered phenotype
 
-        std::cout << "EVALUATION" << std::endl;
+        //std::cout << "EVALUATION" << std::endl;
 
         std::vector<double> zone_exp(3);
         std::vector<double> res(3);
@@ -161,7 +162,7 @@ FIT_QD(nn_mlp){
 
         zone_exp = {0,0,0};
 
-        std::cout << "INIT" << std::endl;
+        //std::cout << "INIT" << std::endl;
         target = {-0.211234, 0.59688,0.0};
         robot_angles = {0,M_PI,M_PI}; //init everytime at the same place
         Eigen::Vector3d pos_init = forward_model(robot_angles);
@@ -261,8 +262,8 @@ FIT_QD(nn_mlp){
   //std::cout << "test unitaire - bd: zone 1: " << zone_exp[0]/(_t_max/_delta_t) << " zone 2: " << zone_exp[1]/(_t_max/_delta_t) << " zone 3: " << zone_exp[2]/(_t_max/_delta_t) << std::endl;
 
         this->set_desc(desc); //Which behavior descriptor? The three motors angles
-      std::cout << "EVAL DONE" << std::endl;
-	}
+	//std::cout << "END EVALUATION" << std::endl;      
+}
 
   Eigen::Vector3d forward_model(Eigen::VectorXd a){
     

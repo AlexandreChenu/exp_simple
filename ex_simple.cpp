@@ -118,7 +118,7 @@ int main(int argc, char **argv)
     std::cout << "start...simple example" <<std::endl;
 
     typedef nn_mlp<Params> fit_t; 
-
+    
     typedef phen::Parameters<gen::EvoFloat<1, Params>, fit::FitDummy<>, Params> weight_t;
     //typedef phen::Parameters<gen::EvoFloat<1, Params>, fit::FitDummy<>, Params> bias_t;
     typedef PfWSum<weight_t> pf_t;
@@ -149,11 +149,14 @@ int main(int argc, char **argv)
 
     typedef modif::Dummy<> modifier_t; //place holder
     
+std::cout << "init typedef done" << std::endl;
     typedef qd::QualityDiversity<phen_t, eval_t, stat_t, modifier_t, select_t, container_t, Params> qd_t; 
     //typedef qd::MapElites<phen_t, eval_t, stat_t, modifier_t, Params> qd_t;
 
     qd_t qd;
     //run_ea(argc, argv, qd); 
+
+std::cout << "init qd exp" << std::endl;
 
     qd.run();
     std::cout<<"best fitness:" << qd.stat<0>().best()->fit().value() << std::endl;

@@ -118,7 +118,8 @@ int main(int argc, char **argv)
 {   
     using namespace sferes;
     using namespace nn;
-
+    
+    tbb::task_scheduler_init init(8);
 
     std::cout << "start...simple example" <<std::endl;
 

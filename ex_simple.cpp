@@ -45,7 +45,7 @@
 
 
 //#include "/git/sferes2/exp/exp_simple/best_fit_nn.hpp"
-#include "/git/sferes2/exp/exp_simple/best_fit_it.hpp"
+#include "best_fit_all.hpp"
 //#include "/home/vagrant/git/exp_simple/best_fit_it.hpp"
 
 
@@ -144,7 +144,7 @@ int main(int argc, char **argv)
     typedef eval::Parallel<Params> eval_t; //parallel eval (faster)
     
     typedef boost::fusion::vector< 
-        stat::BestFitIt<phen_t, Params>, 
+        stat::BestFitAll<phen_t, Params>, 
         //stat::BestFit<phen_t, Params>,
         stat::QdContainer<phen_t, Params>, 
         stat::QdProgress<phen_t, Params> 
@@ -156,12 +156,13 @@ int main(int argc, char **argv)
     
     typedef qd::QualityDiversity<phen_t, eval_t, stat_t, modifier_t, select_t, container_t, Params> qd_t; 
     //typedef qd::MapElites<phen_t, eval_t, stat_t, modifier_t, Params> qd_t;
-
-    qd_t qd;
-    run_ea(argc, argv, qd); 
-
-std::cout << "init qd exp" << std::endl;
-
+    std::cout << "end all typedef init" << std::endl;
+    
+     qd_t qd;
+    //run_ea(argc, argv, qd); 
+    std::cout << "run experiment" << std::endl;
+    qd.run();
+    
     std::cout<<"best fitness:" << qd.stat<0>().best()->fit().value() << std::endl;
     std::cout<<"archive size:" << qd.stat<1>().archive().size() << std::endl;
 

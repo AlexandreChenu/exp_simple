@@ -11,7 +11,7 @@
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 
-#include "/git/sferes2/exp/exp_simple/fit_behav.hpp"
+#include "fit_behav.hpp"
 
 namespace sferes {
   namespace stat {
@@ -47,8 +47,7 @@ namespace sferes {
           typedef boost::archive::binary_oarchive oa_t;
 
           std::cout << "writing...model" << std::endl;
-          
-	  //const std::string fmodel = "/git/sferes2/exp/tmp/model_" + std::to_string(_cnt) + ".bin";
+          //const std::string fmodel = "/git/sferes2/exp/tmp/model_" + std::to_string(_cnt) + ".bin";
           const std::string fmodel = ea.res_dir() + "/model_" + std::to_string(_cnt) + ".bin";
 	  {
 	  std::ofstream ofs(fmodel, std::ios::binary);

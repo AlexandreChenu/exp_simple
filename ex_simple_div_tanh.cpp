@@ -45,8 +45,8 @@
 
 
 //#include "/git/sferes2/exp/exp_simple/best_fit_nn.hpp"
-#include "best_fit_nn.hpp"
-//#include "best_fit_it.hpp"
+//include "best_fit_all.hpp"
+#include "best_fit_div_tanh.hpp"
 
 
 #include <sferes/stat/qd_container.hpp>
@@ -132,8 +132,8 @@ int main(int argc, char **argv)
     typedef PfWSum<weight_t> pf_t;
     //typedef AfSigmoidNoBias<> af_t;
     
-    //typedef AfTanhNoBias<params::Dummy> af_t;
-    typedef AfSigmoidNoBias<> af_t;
+    typedef AfTanhNoBias<params::Dummy> af_t;
+    //ypedef AfSigmoidNoBias<> af_t;
     //typedef AfSigmoidBias<bias_t> af_t;
     //typedef AfTanhBias<bias_t> af_t;
     
@@ -157,11 +157,12 @@ int main(int argc, char **argv)
     typedef boost::fusion::vector< 
         //stat::BestFitAll<phen_t, Params>, 
         //stat::BestFitIt<phen_t, Params>,
-	stat::BestFitNN<phen_t, Params>,
+	    stat::BestFitDivT<phen_t, Params>,
         stat::QdContainer<phen_t, Params>, 
         stat::QdProgress<phen_t, Params> 
         >
         stat_t; 
+        
 
     typedef modif::Dummy<> modifier_t; //place holder
     

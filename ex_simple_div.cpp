@@ -45,8 +45,8 @@
 
 
 //#include "/git/sferes2/exp/exp_simple/best_fit_nn.hpp"
-#include "best_fit_nn.hpp"
-//#include "best_fit_it.hpp"
+//include "best_fit_all.hpp"
+#include "best_fit_div.hpp"
 
 
 #include <sferes/stat/qd_container.hpp>
@@ -157,11 +157,12 @@ int main(int argc, char **argv)
     typedef boost::fusion::vector< 
         //stat::BestFitAll<phen_t, Params>, 
         //stat::BestFitIt<phen_t, Params>,
-	stat::BestFitNN<phen_t, Params>,
+	    stat::BestFitDiv<phen_t, Params>,
         stat::QdContainer<phen_t, Params>, 
         stat::QdProgress<phen_t, Params> 
         >
         stat_t; 
+        
 
     typedef modif::Dummy<> modifier_t; //place holder
     

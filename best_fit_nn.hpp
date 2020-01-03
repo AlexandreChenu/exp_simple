@@ -11,7 +11,7 @@
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 
-#include "/git/sferes2/exp/exp_simple/fit_behav.hpp"
+#include "fit_behav.hpp"
 
 namespace sferes {
   namespace stat {
@@ -22,7 +22,7 @@ namespace sferes {
         assert(!ea.pop().empty());
         _best = *std::max_element(ea.pop().begin(), ea.pop().end(), fit::compare_max());
 
-        std::cout << "pop size: " << ea.pop().size() << std::endl;
+     //   std::cout << "pop size: " << ea.pop().size() << std::endl;
 
         this->_create_log_file(ea, "bestfit.dat");
         if (ea.dump_enabled())
@@ -42,8 +42,9 @@ namespace sferes {
           oa << *_best;
           }
           std::cout << "model written" << std::endl;}
-        _cnt += 1;
+      _cnt ++;  
       }
+
 
       void show(std::ostream& os, size_t k) {
         _best->develop();

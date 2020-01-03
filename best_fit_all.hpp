@@ -30,21 +30,7 @@ namespace sferes {
         //change it to depend from params 
         if (_cnt%Params::pop::dump_period == 0){ //for each dump period
 
-          typedef boost::archive::binary_oarchive oa_t;
-
-          std::cout << "writing...model" << std::endl;
-          //const std::string fmodel = "/git/sferes2/exp/tmp/model_" + std::to_string(_cnt) + ".bin";
-          const std::string fmodel = ea.res_dir() + "/model_" + std::to_string(_cnt) + ".bin";
-      	  {
-      	  std::ofstream ofs(fmodel, std::ios::binary);
-                
-      	  if (ofs.fail()){
-      		  std::cout << "wolla ca s'ouvre pas" << std::endl;}  
-      	
-      	  oa_t oa(ofs);
-          //oa << model;
-          oa << *_best;
-          }
+          std::cout << "Youhou dump period magle" << std::endl;
         }
 
         if (_cnt == Params::pop::nb_gen - 1){
@@ -98,7 +84,7 @@ namespace sferes {
         
           oa_t oa(ofs);
           //oa << model;
-          oa << *it;
+          oa << **it;
           } //save model
 
           cnt ++;
@@ -222,7 +208,7 @@ namespace sferes {
 
         }
 
-  std::vector<double> get_zone(Eigen::VectorXf start, Eigen::Vector3d target, Eigen::VectorXf pos){
+  std::vector<double> get_zone(Eigen::Vector3d start, Eigen::Vector3d target, Eigen::Vector3d pos){
       
       
       std::vector<double> desc_add (3);

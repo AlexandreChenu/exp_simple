@@ -45,8 +45,8 @@
 
 
 //#include "/git/sferes2/exp/exp_simple/best_fit_nn.hpp"
-#include "best_fit_nn.hpp"
-//#include "best_fit_it.hpp"
+//include "best_fit_all.hpp"
+#include "best_fit_div_sigb.hpp"
 
 
 #include <sferes/stat/qd_container.hpp>
@@ -133,11 +133,11 @@ int main(int argc, char **argv)
     //typedef AfSigmoidNoBias<> af_t;
     
     //typedef AfTanhNoBias<params::Dummy> af_t;
-    typedef AfSigmoidNoBias<> af_t;
-    //typedef AfSigmoidBias<bias_t> af_t;
+    //typedef AfSigmoidNoBias<> af_t;
+    typedef AfSigmoidBias<bias_t> af_t;
     //typedef AfTanhBias<bias_t> af_t;
     
-    typedef sferes::gen::DnnFF<Neuron<pf_t, af_t>,  Connection<weight_t>, Params> gen_t; // TODO : change by DnnFF in order to use only feed-forward neural networks
+    typedef sferes::gen::Dnn<Neuron<pf_t, af_t>,  Connection<weight_t>, Params> gen_t; // TODO : change by DnnFF in order to use only feed-forward neural networks
         // TODO : change by hyper NN in order to test hyper NEAT 
     
     //typedef sferes::gen::Dnn<Neuron<pf_t, af_t>,  Connection<weight_t>, Params> gen_t;
@@ -157,11 +157,12 @@ int main(int argc, char **argv)
     typedef boost::fusion::vector< 
         //stat::BestFitAll<phen_t, Params>, 
         //stat::BestFitIt<phen_t, Params>,
-	stat::BestFitNN<phen_t, Params>,
+	    stat::BestFitDiv<phen_t, Params>,
         stat::QdContainer<phen_t, Params>, 
         stat::QdProgress<phen_t, Params> 
         >
         stat_t; 
+        
 
     typedef modif::Dummy<> modifier_t; //place holder
     

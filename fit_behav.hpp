@@ -96,10 +96,10 @@ struct Params {
   struct dnn {
     SFERES_CONST size_t nb_inputs = 5; // right/left and up/down sensors
     SFERES_CONST size_t nb_outputs  = 3; //usage of each joint
-    SFERES_CONST size_t min_nb_neurons  = 15;
-    SFERES_CONST size_t max_nb_neurons  = 50;
-    SFERES_CONST size_t min_nb_conns  = 20;
-    SFERES_CONST size_t max_nb_conns  = 80;
+    SFERES_CONST size_t min_nb_neurons  = 5;
+    SFERES_CONST size_t max_nb_neurons  = 20;
+    SFERES_CONST size_t min_nb_conns  = 5;
+    SFERES_CONST size_t max_nb_conns  = 30;
     SFERES_CONST float  max_weight  = 2.0f;
     SFERES_CONST float  max_bias  = 2.0f;
 
@@ -126,8 +126,8 @@ struct Params {
       // number of initial random points
       SFERES_CONST size_t init_size = 100; // nombre d'individus générés aléatoirement 
       SFERES_CONST size_t size = 100; // size of a batch
-      SFERES_CONST size_t nb_gen = 10001; // nbr de gen pour laquelle l'algo va tourner 
-      SFERES_CONST size_t dump_period = 200; 
+      SFERES_CONST size_t nb_gen = 5001; // nbr de gen pour laquelle l'algo va tourner 
+      SFERES_CONST size_t dump_period = 500; 
   };
 
   struct qd {
@@ -161,7 +161,7 @@ FIT_QD(nn_mlp){
         zone_exp = {0,0,0};
 
         //std::cout << "INIT" << std::endl;
-        target = {-0.211234, 0.59688,0.0};
+        target = {0.251234, 0.59688,0.0};
         robot_angles = {0,M_PI,M_PI}; //init everytime at the same place
         Eigen::Vector3d pos_init = forward_model(robot_angles);
         
@@ -185,14 +185,15 @@ FIT_QD(nn_mlp){
           //DATA GO THROUGH NN
           ind.nn().init(); //init neural network 
           
-          //for (int j = 0; j < 100+ 1; ++j)
-          for (int j = 0; j < ind.gen().get_depth() + 1; ++j) //In case of FFNN
+          for (int j = 0; j < 20+ 1; ++j)
+          //for (int j = 0; j < ind.gen().get_depth() + 1; ++j) //In case of FFNN
             ind.nn().step(inputs);
 
           Eigen::Vector3d output;
           for (int indx = 0; indx < 3; ++indx){
             output[indx] = 2*(ind.nn().get_outf(indx) - 0.5)*_vmax; //Remap to a speed between -v_max and v_max (speed is saturated)
-            robot_angles[indx] += output[indx]*_delta_t; //Compute new angles
+            //output[indx] = (ind.nn().get_outf(indx))*_vmax; //different remaping for tanh activation function
+	    robot_angles[indx] += output[indx]*_delta_t; //Compute new angles
             //motor_usage[indx] += abs(output[indx]); //Compute motor usage
           }
 
@@ -261,7 +262,7 @@ FIT_QD(nn_mlp){
 
   }
 
-  std::vector<double> get_zone(Eigen::VectorXf start, Eigen::Vector3d target, Eigen::VectorXf pos){
+  std::vector<double> get_zone(Eigen::Vector3d start, Eigen::Vector3d target, Eigen::Vector3d pos){
       
       
       std::vector<double> desc_add (3);
